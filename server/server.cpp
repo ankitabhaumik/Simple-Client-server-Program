@@ -46,8 +46,9 @@ int main()
      printf("Waiting for the connection ... \n");
 
      //Accept the connection of the clint
-     int client_socket = accept(server_fd, (struct sockaddr*) &server_fd, (socklen_t*)sizeof(server_fd));
-     if(client_socket == INVALID_SOCKET)
+     int addrlen = sizeof(server_fd);
+     int new_socket = accept(server_fd, (struct sockaddr*) &server_fd, (socklen_t*)&addrlen);
+     if(new_socket == INVALID_SOCKET)
      {
         printf("Accept failed\n");
         close(server_fd);
@@ -58,12 +59,12 @@ int main()
 
      //Receive msg from client
      char buffer[1024] = {};
-     int bytes_received = recv(client_socket,buffer,sizeof(buffer)-1,0);
+     int bytes_received = recv(new_socket,buffer,sizeof(buffer)-1,0);
      //int bytes_received = read(client_socket,buffer,sizeof(buffer)-1);
      if(bytes_received > 0)
      {
           buffer[bytes_received] ='\0';
-          printf("Message from client %s\n", buffer);
+          printf("Message from client :  %s\n", buffer);
      }
      else
      {
@@ -71,11 +72,11 @@ int main()
      }
 
 
-     const char* response = "Hello from server";
-     send(client_socket,response, strlen(response),0);
+     const char* response = "Hello from server : ";
+     send(new_socket,response, strlen(response),0);
 
      //cleanup
-     close(client_socket);
+     close(new_socket);
      close(server_fd);
 
     

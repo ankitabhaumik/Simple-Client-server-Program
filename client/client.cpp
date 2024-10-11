@@ -44,7 +44,7 @@ int main()
         return EXIT_FAILURE;
      }
 
-     char message[BUFFER_SIZE] = "Hello server From Client";
+     char message[BUFFER_SIZE] = "Hello From Client";
      int bytes_send = send(client_socket,message, strlen(message),0);
      printf("bytes send : %d\n",bytes_send);  
      
@@ -61,7 +61,7 @@ int main()
      if(bytes_received > 0)
      {
           buffer[bytes_received] ='\0';
-          printf("Message from server %s\n", buffer);
+          printf("Message from server : %s\n", buffer);
      }
      else
      {
@@ -71,8 +71,6 @@ int main()
 
      //cleanup
      close(client_socket);
-     printf("Connection failed\n");
-    
      return EXIT_SUCCESS;
 
 }
